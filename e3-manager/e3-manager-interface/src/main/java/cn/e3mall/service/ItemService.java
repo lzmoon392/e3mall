@@ -1,6 +1,7 @@
 package cn.e3mall.service;
 
 import cn.e3mall.common.pojo.EasyUIDataGridResult;
+import cn.e3mall.common.utils.E3Result;
 import cn.e3mall.pojo.TbItem;
 
 /**
@@ -17,9 +18,12 @@ public interface ItemService {
 
     /**
      * 商品列表分页查询
+     *
      * @param page 当前页
      * @param size 每页数据
      * @return cn.e3mall.common.pojo.EasyUIDataGridResult
      */
     EasyUIDataGridResult getItemList(Integer page, Integer size);
+
+    E3Result addItem(TbItem item, String desc);
 }
