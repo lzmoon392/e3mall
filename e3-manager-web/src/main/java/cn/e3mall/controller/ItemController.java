@@ -5,12 +5,10 @@ import cn.e3mall.common.utils.E3Result;
 import cn.e3mall.pojo.TbItem;
 import cn.e3mall.service.ItemService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author: jerry
@@ -39,4 +37,35 @@ public class ItemController {
         itemService.addItem(item, desc);
         return E3Result.ok();
     }
+
+    @RequestMapping(value = "/item/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public E3Result editItem(TbItem item, String desc) {
+        itemService.editItem(item, desc);
+        return E3Result.ok();
+    }
+
+    @RequestMapping("/item/desc/{itemId}")
+    @ResponseBody
+    public E3Result getItemDesc(@PathVariable Long itemId) {
+        return itemService.getItemDesc(itemId);
+    }
+
+    @RequestMapping("/item/delete")
+    @ResponseBody
+    public E3Result deleteItem(@RequestParam List<Long> ids) {
+        return itemService.deleteItem(ids);
+    }
+
+    @RequestMapping("/item/instock")
+    @ResponseBody
+    public E3Result instockItem(@RequestParam List<Long> ids) {
+        return itemService.updateItem(ids, (byte) 2);
+    }
+    @RequestMapping("/item/reshelf")
+    @ResponseBody
+    public E3Result reshelfItem(@RequestParam List<Long> ids) {
+        return itemService.updateItem(ids, (byte) 1);
+    }
+
 }

@@ -70,4 +70,40 @@ public class ItemServiceImpl implements ItemService {
         return E3Result.ok();
     }
 
+    @Override
+    public E3Result getItemDesc(Long itemId) {
+        TbItemDesc itemDesc = itemDescMapper.selectByPrimaryKey(itemId);
+        return E3Result.ok(itemDesc);
+    }
+
+    @Override
+    public E3Result editItem(TbItem item, String desc) {
+        item.setStatus((byte) 1);
+        item.setCreated(new Date());
+        item.setUpdated(new Date());
+        itemMapper.updateByPrimaryKey(item);
+        TbItemDesc itemDesc = itemDescMapper.selectByPrimaryKey(item.getId());
+        itemDesc.setItemDesc(desc);
+        itemDescMapper.updateByPrimaryKey(itemDesc);
+        return E3Result.ok();
+    }
+
+    @Override
+    public E3Result deleteItem(List<Long> ids) {
+        for (Long id : ids) {
+            itemMapper.deleteByPrimaryKey(id);
+        }
+        return E3Result.ok();
+    }
+
+    @Override
+    public E3Result updateItem(List<Long> ids, Byte status) {
+        for (Long id : ids) {
+            TbItem tbItem = itemMapper.selectByPrimaryKey(id);
+            tbItem.setStatus(status);
+            itemMapper.updateByPrimaryKey(tbItem);
+        }
+        return E3Result.ok();
+    }
+
 }
