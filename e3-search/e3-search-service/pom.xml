@@ -3,23 +3,17 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>e3-parent</artifactId>
+        <artifactId>e3-search</artifactId>
         <groupId>cn.e3mall</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>e3-manager-web</artifactId>
+    <artifactId>e3-search-service</artifactId>
     <packaging>war</packaging>
-
     <dependencies>
         <dependency>
-            <artifactId>e3-manager-interface</artifactId>
-            <groupId>cn.e3mall</groupId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <artifactId>e3-content-interface</artifactId>
+            <artifactId>e3-manager-dao</artifactId>
             <groupId>cn.e3mall</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -27,26 +21,6 @@
             <artifactId>e3-search-interface</artifactId>
             <groupId>cn.e3mall</groupId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <!-- JSP相关 -->
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jsp-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- 文件上传组件 -->
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
         </dependency>
         <!-- Spring -->
         <dependency>
@@ -100,26 +74,32 @@
             <groupId>com.github.sgroschupf</groupId>
             <artifactId>zkclient</artifactId>
         </dependency>
+        <!-- solr客户端 -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
         </dependency>
     </dependencies>
-    <!--配置tomcat插件-->
+    <!-- 如果不添加此节点mybatis的mapper.xml文件都会被漏掉。 -->
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <configuration>
-                    <path>/</path>
-                    <port>8081</port>
-                </configuration>
-            </plugin>
-        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
+
 </project>

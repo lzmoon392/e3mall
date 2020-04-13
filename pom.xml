@@ -13,6 +13,7 @@
         <module>e3-manager-web</module>
         <module>fastdfs_client</module>
         <module>pagehelper</module>
+        <module>e3-search</module>
     </modules>
     <packaging>pom</packaging>
     <!-- 集中定义依赖版本号 -->

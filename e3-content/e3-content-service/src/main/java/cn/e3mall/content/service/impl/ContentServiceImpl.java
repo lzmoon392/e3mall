@@ -1,13 +1,17 @@
 package cn.e3mall.content.service.impl;
 
+import cn.e3mall.common.jedis.JedisClient;
 import cn.e3mall.common.pojo.EasyUIDataGridResult;
 import cn.e3mall.common.utils.E3Result;
+import cn.e3mall.common.utils.JsonUtils;
 import cn.e3mall.content.service.ContentService;
 import cn.e3mall.mapper.TbContentMapper;
 import cn.e3mall.pojo.TbContent;
 import cn.e3mall.pojo.TbContentExample;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,12 +26,18 @@ import java.util.List;
 public class ContentServiceImpl implements ContentService {
     @Resource
     private TbContentMapper contentMapper;
+    @Resource
+    private JedisClient jedisClient;
+
+    @Value("${CONTENT_LIST}")
+    private String CONTENT_LIST;
 
     @Override
     public E3Result addContent(TbContent content) {
         content.setCreated(new Date());
         content.setUpdated(new Date());
         contentMapper.insert(content);
+        jedisClient.hdel(CONTENT_LIST, content.getCategoryId().toString());
         return E3Result.ok();
     }
 
@@ -46,15 +56,23 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<TbContent> getContentListByCid(Long cid) {
+        String json = jedisClient.hget(CONTENT_LIST, String.valueOf(cid));
+        if (StringUtils.isNoneBlank(json)) {
+            return JsonUtils.jsonToList(json, TbContent.class);
+        }
         TbContentExample example = new TbContentExample();
         TbContentExample.Criteria criteria = example.createCriteria();
         criteria.andCategoryIdEqualTo(cid);
-        return contentMapper.selectByExampleWithBLOBs(example);
+        List<TbContent> contentList = contentMapper.selectByExampleWithBLOBs(example);
+        jedisClient.hset(CONTENT_LIST, String.valueOf(cid), JsonUtils.objectToJson(contentList));
+        jedisClient.expire(CONTENT_LIST, 60 * 2);
+        return contentList;
     }
 
     @Override
     public E3Result editContent(TbContent content) {
         contentMapper.updateByPrimaryKeyWithBLOBs(content);
+        jedisClient.hdel(CONTENT_LIST, content.getCategoryId().toString());
         return E3Result.ok();
     }
 
