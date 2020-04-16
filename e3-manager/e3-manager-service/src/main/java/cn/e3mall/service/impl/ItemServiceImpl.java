@@ -12,10 +12,16 @@ import cn.e3mall.service.ItemService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +35,10 @@ public class ItemServiceImpl implements ItemService {
     private TbItemMapper itemMapper;
     @Resource
     private TbItemDescMapper itemDescMapper;
+    @Autowired
+    private JmsTemplate jmsTemplate;
+    @Resource
+    private Destination topicDestination;
 
     @Override
     public TbItem getItemById(long itemId) {
@@ -49,7 +59,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public E3Result addItem(TbItem item, String desc) {
         //生成商品ID,
-        long itemId = IDUtils.genItemId();
+        final long itemId = IDUtils.genItemId();
         item.setId(itemId);
         //补全item属性
         //商品状态，1-正常，2-下架，3-删除
@@ -67,6 +77,12 @@ public class ItemServiceImpl implements ItemService {
         itemDesc.setUpdated(new Date());
         //向描述表插入数据
         itemDescMapper.insert(itemDesc);
+        jmsTemplate.send(topicDestination, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                return session.createTextMessage(String.valueOf(itemId));
+            }
+        });
         return E3Result.ok();
     }
 

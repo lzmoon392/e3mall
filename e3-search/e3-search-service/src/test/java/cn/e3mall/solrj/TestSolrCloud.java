@@ -1,3 +1,5 @@
+package cn.e3mall.solrj;
+
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
