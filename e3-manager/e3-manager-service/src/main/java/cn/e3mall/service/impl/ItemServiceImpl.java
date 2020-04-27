@@ -1,8 +1,10 @@
 package cn.e3mall.service.impl;
 
+import cn.e3mall.common.jedis.JedisClient;
 import cn.e3mall.common.pojo.EasyUIDataGridResult;
 import cn.e3mall.common.utils.E3Result;
 import cn.e3mall.common.utils.IDUtils;
+import cn.e3mall.common.utils.JsonUtils;
 import cn.e3mall.mapper.TbItemDescMapper;
 import cn.e3mall.mapper.TbItemMapper;
 import cn.e3mall.pojo.TbItem;
@@ -11,7 +13,9 @@ import cn.e3mall.pojo.TbItemExample;
 import cn.e3mall.service.ItemService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
@@ -39,10 +43,27 @@ public class ItemServiceImpl implements ItemService {
     private JmsTemplate jmsTemplate;
     @Resource
     private Destination topicDestination;
+    @Resource
+    private JedisClient jedisClient;
+
+    @Value("${REDIS_ITEM_PRE}")
+    private String REDIS_ITEM_PRE;
+
+    @Value("${ITEM_CACHE_EXPIRE}")
+    private Integer ITEM_CACHE_EXPIRE;
 
     @Override
     public TbItem getItemById(long itemId) {
-        return itemMapper.selectByPrimaryKey(itemId);
+        String key = REDIS_ITEM_PRE + itemId + "_BASE";
+        String tbItemKey = jedisClient.get(key);
+        if (StringUtils.isNoneBlank(tbItemKey)) {
+            return JsonUtils.jsonToPojo(tbItemKey, TbItem.class);
+        }
+        TbItem tbItem = itemMapper.selectByPrimaryKey(itemId);
+
+        jedisClient.set(key, JsonUtils.objectToJson(tbItem));
+        jedisClient.expire(key, ITEM_CACHE_EXPIRE);
+        return tbItem;
     }
 
     @Override
@@ -120,6 +141,19 @@ public class ItemServiceImpl implements ItemService {
             itemMapper.updateByPrimaryKey(tbItem);
         }
         return E3Result.ok();
+    }
+
+    @Override
+    public TbItemDesc getItemDescById(Long itemId) {
+        String key = REDIS_ITEM_PRE + itemId + "_DESC";
+        String tbItemKey = jedisClient.get(key);
+        if (StringUtils.isNoneBlank(tbItemKey)) {
+            return JsonUtils.jsonToPojo(tbItemKey, TbItemDesc.class);
+        }
+        TbItemDesc tbItemDesc = itemDescMapper.selectByPrimaryKey(itemId);
+        jedisClient.set(key, JsonUtils.objectToJson(tbItemDesc));
+        jedisClient.expire(key, ITEM_CACHE_EXPIRE);
+        return tbItemDesc;
     }
 
 }

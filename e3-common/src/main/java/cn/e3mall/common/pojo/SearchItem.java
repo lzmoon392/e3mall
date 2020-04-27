@@ -1,5 +1,7 @@
 package cn.e3mall.common.pojo;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -63,5 +65,12 @@ public class SearchItem implements Serializable {
 
     public void setCategory_name(String category_name) {
         this.category_name = category_name;
+    }
+    public String[] getImages() {
+        String image = this.getImage();
+        if (StringUtils.isNoneBlank(image)) {
+            return image.split(",");
+        }
+        return null;
     }
 }

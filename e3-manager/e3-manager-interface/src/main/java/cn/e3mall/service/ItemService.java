@@ -3,6 +3,7 @@ package cn.e3mall.service;
 import cn.e3mall.common.pojo.EasyUIDataGridResult;
 import cn.e3mall.common.utils.E3Result;
 import cn.e3mall.pojo.TbItem;
+import cn.e3mall.pojo.TbItemDesc;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @create: 2020-03-30 01:56
  */
 public interface ItemService {
+
     /**
      * 根据ID查询商品
      * @param itemId 主键ID
@@ -36,4 +38,6 @@ public interface ItemService {
     E3Result deleteItem(List<Long> ids);
 
     E3Result updateItem(List<Long> ids, Byte status);
+
+    TbItemDesc getItemDescById(Long itemId);
 }
