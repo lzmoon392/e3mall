@@ -3,7 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <display-name>e3-item-web</display-name>
+
+    <display-name>e3-cart-web</display-name>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
         <welcome-file>index.htm</welcome-file>
@@ -16,7 +17,7 @@
 
     <!-- springmvc的前端控制器 -->
     <servlet>
-        <servlet-name>e3-item-web</servlet-name>
+        <servlet-name>e3-cart-web</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <!-- contextConfigLocation不是必须的， 如果不配置contextConfigLocation， springmvc的配置文件默认在：WEB-INF/servlet的name+"-servlet.xml" -->
         <init-param>
@@ -26,7 +27,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>e3-item-web</servlet-name>
+        <servlet-name>e3-cart-web</servlet-name>
         <!--伪静态化-->
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
