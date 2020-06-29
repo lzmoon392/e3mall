@@ -9,3 +9,11 @@
 /e3-common/e3-common.iml
 *.idea/
 */target/
+format
+wc.db
+pagehelper/.svn/pristine/1e/1ed8f80c3c7a36920d0dba314c21d516c3c0b15d.svn-base
+pagehelper/.svn/pristine/24/24a42c92f927bc14b6c491294bcc3f82e5a7599e.svn-base
+pagehelper/.svn/pristine/5c/5cbaa2369a5f0427f3bf0996e6ece86082b670c3.svn-base
+pagehelper/.svn/pristine/c9/c9f1011bf3e0c72277efb820f3cd49e7543b7512.svn-base
+pagehelper/.svn/pristine/d4/d427d1626be0317b84847ca3878f5d437e2c3676.svn-base
+pagehelper/.svn/pristine/f6/f6aa43c51aa60233b1e57120022f0787e90f7961.svn-base
