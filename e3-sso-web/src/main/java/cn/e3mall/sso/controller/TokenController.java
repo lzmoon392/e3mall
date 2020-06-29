@@ -21,7 +21,7 @@ public class TokenController {
     @Resource
     private TokenService tokenService;
 
-    //    @RequestMapping(value = "/user/token/{token}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//        @RequestMapping(value = "/user/token/{token}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 //    @ResponseBody
 //    public String getUserByToken(@PathVariable String token, @RequestParam(required = false) String callback) {
 //        E3Result result = tokenService.getUserByToken(token);
