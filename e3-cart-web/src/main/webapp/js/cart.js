@@ -3,7 +3,7 @@ var CART = {
 		$(".increment").click(function(){//＋
 			let _thisInput = $(this).siblings("input");
 			_thisInput.val(eval(_thisInput.val()) + 1);
-			$.post("/cart/update/num/"+_thisInput.attr("itemId")+"/"+_thisInput.val() + ".html",function(data){
+			$.post("/cart/update/num/"+_thisInput.attr("itemId")+"/"+_thisInput.val() + ".action",function(data){
 				CART.refreshTotalPrice();
 			});
 		});
@@ -13,7 +13,7 @@ var CART = {
 				return ;
 			}
 			_thisInput.val(eval(_thisInput.val()) - 1);
-			$.post("/cart/update/num/"+_thisInput.attr("itemId")+"/"+_thisInput.val() + ".html",function(data){
+			$.post("/cart/update/num/"+_thisInput.attr("itemId")+"/"+_thisInput.val() + ".action",function(data){
 				CART.refreshTotalPrice();
 			});
 		});
