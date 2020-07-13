@@ -23,6 +23,11 @@
             <groupId>cn.e3mall</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <artifactId>e3-sso-interface</artifactId>
+            <groupId>cn.e3mall</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- JSP相关 -->
         <dependency>
             <groupId>jstl</groupId>
