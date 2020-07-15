@@ -7,13 +7,13 @@
 <head>
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="cache-control" content="no-cache" />
-<meta http-equiv="expires" content="0" /> 
-<meta name="format-detection" content="telephone=no" />  
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+<meta http-equiv="expires" content="0" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="format-detection" content="telephone=no" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>订单结算页 -宜立方商城</title>
-<!--结算页面样式-->	
+<!--结算页面样式-->
 <link rel="stylesheet" type="text/css" href="/css/jquery.alerts.css?v=20160713" />
 <link rel="stylesheet" type="text/css" href="/css/head.css?v=20160713" />
 <link rel="stylesheet" type="text/css" href="/css/order.css?v=20160713">
@@ -25,7 +25,7 @@
 <script src="/js/common.js?v=20160713" type="text/javascript"></script>
 <script src="/js/jquery.region.js?v=20160713" type="text/javascript"></script>
 <script src="/js/order.js?v=20160713" type="text/javascript"></script>
-</head>	
+</head>
 <body id="mainframe">
 <jsp:include page="commons/header.jsp" />
 <div class="orderMain">
@@ -40,7 +40,7 @@
 		<input type="hidden" name="orderItems[${status.index}].price" value="${cart.price}"/>
 		<input type="hidden" name="orderItems[${status.index}].totalFee" value="${cart.price * cart.num}"/>
 		<input type="hidden" name="orderItems[${status.index}].title" value="${cart.title}"/>
-		<input type="hidden" name="orderItems[${status.index}].picPath" value="${cart.images[0]}"/>
+		<input type="hidden" name="orderItems[${status.index}].picPath" value="${cart.image}"/>
 	</c:forEach>
 	<input type="hidden" name="orderShipping.receiverName" value="入云龙"/>
 	<input type="hidden" name="orderShipping.receiverMobile" value="15800888888"/>
@@ -122,7 +122,7 @@
 				<div class="orderPInfo">
 					<div class="pItem">
 						<a href="http://localhost:8086/item/${cart.id}.html" target="_blank">
-						<img src="${cart.images[0] }" style="width: 60px;height: 60px;"/>
+						<img src="${cart.image }" style="width: 60px;height: 60px;"/>
 						</a>
 					</div>
 					<div class="pItem pGoods">
@@ -137,7 +137,7 @@
 					<div class="pItem pInventory" pid="57111">现货</div>
 					<div class="pItem pQuantity">${cart.num}</div>
 					<div class="pItem pWeight">0.72kg</div>
-					<div class="pItem pSubtotal">¥${cart.price / 100 * cart.num}</div> 
+					<div class="pItem pSubtotal">¥${cart.price / 100 * cart.num}</div>
 					<span class="clear"></span>
 				</div>
 				</c:forEach>
@@ -175,7 +175,7 @@
   </div>
   </div>
   <div class="orderTFoot">
-  	<div id="orderSaveTip" class="ct"></div>            
+  	<div id="orderSaveTip" class="ct"></div>
     <div class="submitOrder">
       <div class="orderSubmit">
       	<input id="save" name="save" onclick="$('#orderForm').submit()" class="submitBtn" value="提交订单 " type="button"/>

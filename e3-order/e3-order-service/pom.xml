@@ -19,7 +19,7 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <artifactId>e3-order-service</artifactId>
+            <artifactId>e3-order-interface</artifactId>
             <groupId>cn.e3mall</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

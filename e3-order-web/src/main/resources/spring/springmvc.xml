@@ -17,9 +17,20 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="cn.e3mall.order.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!-- 引用dubbo服务 -->
     <dubbo:application name="e3-order-web"/>
     <dubbo:registry protocol="zookeeper" address="localhost:2181"/>
-<!--    <dubbo:reference interface="cn.e3mall.content.service.ContentService" id="contentService"/>-->
+    <dubbo:reference interface="cn.e3mall.cart.service.CartService" id="cartService"/>
+    <dubbo:reference interface="cn.e3mall.sso.service.TokenService" id="tokenService"/>
+    <dubbo:reference interface="cn.e3mall.order.service.OrderService" id="orderService"/>
 
 </beans>
